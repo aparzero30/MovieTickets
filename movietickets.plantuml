@@ -1,0 +1,53 @@
+@startuml Bookstore
+actor User
+participant UI
+participant MovieList
+participant ReservationList
+participant Payments
+participant Gateway
+
+
+==== Search Movie ====
+User -> UI: //inputs movie title
+UI -> MovieList: GET/movie:title
+MovieList -> UI: 200
+UI -> User: prompts search result
+
+==== User Selects a movie from result  ====
+
+User -> UI : //selects a movie
+UI -> MovieList : GET/movie:id  
+UI -> User ://display movie details including the available showtime
+
+
+==== Reservation  ====
+
+User -> UI : //user selects a showtime and chooses seats.
+UI -> ReservationList : POST/user:id/movie:id
+ReservationList -> UI: 201 created
+UI -> User: //show reservation created
+
+
+==== Payment  ====
+UI -> Payments : Post/payment
+Payments ->  Gateway: Post/payment
+Gateway -> Payments: 200
+Payments ->  Gateway: Put/payment:id
+Gateway -> Payments: 204 no content
+
+
+==== Add Movie to Movie List====
+User -> UI : //give the data about a new  movie
+UI -> Orders : POST/movie
+BookList ->  UI: 201 created
+UI -> User : //displays the new book on booklist
+
+==== Remove Book from BookList====
+User -> UI : //selects a book to remove
+UI -> BookList : DELETE/book:id
+BookList ->  UI: 204 no content
+UI -> User : //shows book no longer exist
+
+
+
+@enduml 
