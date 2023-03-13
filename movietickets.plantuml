@@ -1,4 +1,4 @@
-@startuml Bookstore
+@startuml Movie Tickets
 actor User
 participant UI
 participant MovieList
@@ -40,13 +40,19 @@ Gateway -> Payments: 204 no content
 User -> UI : //give the data about a new  movie
 UI -> Orders : POST/movie
 BookList ->  UI: 201 created
-UI -> User : //displays the new book on booklist
+UI -> User : //displays the new movie on movielist
 
-==== Remove Book from BookList====
-User -> UI : //selects a book to remove
-UI -> BookList : DELETE/book:id
+==== Remove Book from BookList ====
+User -> UI : //selects a movie to remove
+UI -> BookList : DELETE/movie:id
 BookList ->  UI: 204 no content
-UI -> User : //shows book no longer exist
+UI -> User : //shows movie no longer exist
+
+==== Manage Showtimes ====
+User -> UI : //select a movie 
+UI -> User : //show timeslots
+User -> UI : // add/edits timeslot of movie
+UI -> MovieList: //PUT/movie:id/movie:showtime
 
 
 
